@@ -13,13 +13,13 @@ public class GameIsOver extends State{
 	@Override
 	protected String condition() {
 		if (player == 'O') {
-			winner = "The winner is Blue!";
+			winner = "The winner is blue!";
 		}
 		else if(player == 'X') {
-			winner = "The winner is Red!";
+			winner = "The winner is red!";
 		}
 		else {
-				winner = "There was a Draw";
+				winner = "There was a draw";
 			}
 		return winner;
 	}
@@ -28,6 +28,16 @@ public class GameIsOver extends State{
 	}
 
 
+	@Override
+	protected boolean finished() {
+		return true;
+	}
+	
+	
+
+
+
+}
 	@Override
 	protected boolean finished() {
 		return true;
