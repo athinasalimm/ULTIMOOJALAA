@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Linea {
+	public static String ColumnOutOfBounds = "The column chosen is out of bounds";
 	public static String CannotAddToken = "You cannot add another token, the limit has been reached"; //TERMINA EL JUEGO
 	public int height;
 	private int width;
@@ -22,6 +23,12 @@ public class Linea {
 	        for (int i = 0; i < width; i++) {
 	            panel.add(new ArrayList<Character>());
 	        }
+	    
+	        
+	    if (!GameMode.modesChosen.contains(mode)) { //ESTO LO INTENTE PONER EN GAMEMODE Y SE ROMPIO TODO NO SE QUE HACER
+	    	//LO DEJO ACA?? QUEDA FEO
+	        throw new IllegalArgumentException("Invalid game mode");
+	    }
 	   gameMode = GameMode.getInstance(GameMode.modesChosen.indexOf(mode));
 	}
 	
@@ -58,16 +65,19 @@ public class Linea {
 		state.moveBlue(chosenColumn, this);
 		state.next(this);
 	}
-
-
 	public void placeToken(int chosenColumn, char token) {
-		if(panel.get(chosenColumn - 1).size() < height) {
-			panel.get(chosenColumn - 1).add(token);  
-		}
-		else {
-			throw new RuntimeException (CannotAddToken);
-		}
+	    if (chosenColumn <= 0 || chosenColumn > width) {
+	        throw new RuntimeException(ColumnOutOfBounds);
+	    }
+	    
+	    if (panel.get(chosenColumn - 1).size() < height) {
+	        panel.get(chosenColumn - 1).add(token);
+	    } else if (panel.get(chosenColumn - 1).size() == height) {
+	        throw new RuntimeException(CannotAddToken);
+	    }
+
 	}
+
 
 	public char getCoordinate(int x, int y) {
 		if (y < 0 || x < 0 || x >= width || y >= panel.get(x).size()) {
@@ -101,12 +111,12 @@ public class Linea {
 	public boolean diagonalWin(char player) {
 	        return IntStream.range(0, height- 3)
 	                .anyMatch(row -> IntStream.range(0, width - 3)
-	                        .anyMatch(column -> IntStream.range(0, 4)
-	                                .allMatch(i -> this.getCoordinate(row + i, column + i) == player)))
+	                .anyMatch(column -> IntStream.range(0, 4)
+	                .allMatch(i -> this.getCoordinate(row + i, column + i) == player)))
 	                || IntStream.range(0, height - 3)
 	                .anyMatch(row -> IntStream.range(3, width)
-	                        .anyMatch(column -> IntStream.range(0, 4)
-	                                .allMatch(i -> this.getCoordinate(row + i, column - i) == player)));
+	                .anyMatch(column -> IntStream.range(0, 4)
+	                .allMatch(i -> this.getCoordinate(row + i, column - i) == player)));
 	    }
 
 
@@ -124,16 +134,17 @@ public class Linea {
 		
 		
 	public void playCMode(char player) {
-			if (horizontalWin(player) || verticalWin(player) || (diagonalWin(player))) {
+			if (horizontalWin(player) || verticalWin(player) || diagonalWin(player)) {
 				state = new GameIsOver(player);
 			}		
 	} 
 
 	public void findDraw() {
 	    if (panel.stream().allMatch(column -> column.size() == height)) {
-	        state = new GameIsOver('D');
+	        state = new GameIsOver('-');
 	    }
 	}
+	
 
 		
 	public char[] show() {
@@ -161,6 +172,8 @@ public class Linea {
 }
 	
 	
+	
+
 	
 	
 	
