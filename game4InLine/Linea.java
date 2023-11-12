@@ -1,15 +1,12 @@
 package game4InLine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 public class Linea {
+	public static String InvalidGameMode = "Invalid game mode";
 	public static String ColumnOutOfBounds = "The column chosen is out of bounds";
-	public static String CannotAddToken = "You cannot add another token, the limit has been reached"; //TERMINA EL JUEGO
+	public static String CannotAddToken = "You cannot add another token, the limit has been reached";
 	public int height;
 	private int width;
 	private GameMode gameMode;
@@ -27,7 +24,7 @@ public class Linea {
 	        
 	    if (!GameMode.modesChosen.contains(mode)) { //ESTO LO INTENTE PONER EN GAMEMODE Y SE ROMPIO TODO NO SE QUE HACER
 	    	//LO DEJO ACA?? QUEDA FEO
-	        throw new IllegalArgumentException("Invalid game mode");
+	        throw new IllegalArgumentException(InvalidGameMode);
 	    }
 	   gameMode = GameMode.getInstance(GameMode.modesChosen.indexOf(mode));
 	}
@@ -172,8 +169,6 @@ public class Linea {
 }
 	
 	
-	
-
 	
 	
 	
