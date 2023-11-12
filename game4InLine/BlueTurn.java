@@ -10,12 +10,12 @@ public class BlueTurn extends State {
 	}
 	
 	public String condition() {
-		return "Blue is playing";
+		return "It's blue's turn";
 	}
 	
 	public void next(Linea line) {
 		line.setState(new RedTurn());
-		line.findDraw();  //solo cuando se llena
+		line.findDraw(); 
 		line.getMode().checkWin(line, 'O');
 	}
 
