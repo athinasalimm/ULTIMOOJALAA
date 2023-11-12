@@ -8,16 +8,15 @@ public class RedTurn extends State {
 	}
 
 	public void moveRed(int chosenColumn, Linea line) {
-		line.placeToken(chosenColumn, 'X'); //juego es la linea q entro en el constructor de turno 
-	}
+		line.placeToken(chosenColumn, 'X'); 
 
-	public String condition() { //caption NO
-		return "rojo";
+	public String condition() { 
+		return "It's red's turn";
 	}
 	
 	public void next(Linea line) {
 		line.setState(new BlueTurn());
-		line.findDraw(); //solo cuando se llena
+		line.findDraw(); 
 		line.getMode().checkWin(line, 'X');
 	}
  
